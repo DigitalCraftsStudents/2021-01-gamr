@@ -11,16 +11,25 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', (req, res) => {
+  // create a user in the database
   db.User.create({
     name: req.body.name,
     email: req.body.email,
     gamerTag: req.body.gamerTag,
   })
     .then(user => {
+      // if successful, respond with error
       res.json(user);
     })
     .catch(error => {
-      res.json(error.errors.map(e => e.message))
+      // if failed, return the error messages
+      if (error.errors) {
+        // try to get errors from sequelize
+        res.json(error.errors.map(e => e.message))
+      } else {
+        // send back generic error otherwise
+        res.json({error: 'failed to create user'})
+      }
     })
 })
 
