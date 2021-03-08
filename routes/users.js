@@ -89,7 +89,7 @@ router.post('/login', async (req, res) => {
   
   // error if wrong
   if (!match) {
-    res.status(401).json({ error: 'incorrect password' })
+    return res.status(401).json({ error: 'incorrect password' })
   }
 
   // login
