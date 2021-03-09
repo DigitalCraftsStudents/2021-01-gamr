@@ -1,12 +1,17 @@
 var express = require('express');
 const db = require('../models');
 var router = express.Router();
+const checkAuth = require('../checkAuth');
 
 /* GET games page. */
-router.get('/', function(req, res, next) {
+router.get('/', checkAuth, function(req, res, next) {
   db.Game.findAll()
     .then(games => {
-      res.json(games);
+      res.render('games', {
+        locals: {
+          games
+        }
+      })
     })
 });
 
